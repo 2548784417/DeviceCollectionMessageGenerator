@@ -430,6 +430,46 @@
 			font-size: 15.5px; /* Adjust the size as needed */
 		}
 		
+		table {
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        th {
+            background-color: #000000;
+        }
+        /* Alternate row colors */
+        tr:nth-child(odd) {
+            background-color: #444444; /* Dark grey (black-ish) for odd rows */
+            color: white; /* White text for better contrast */
+        }
+        tr:nth-child(even) {
+            background-color: #222222; /* Lighter grey for even rows */
+            color: white;
+        }
+		
+		a {
+    color: white; /* Set link color to white */
+    
+}
+
+a:hover {
+    color: #ddd; 
+	text-decoration: none; /* Remove underline from links */
+	font-weight: bold;
+}
+ th:nth-child(n+2), td:nth-child(n+2) {
+            text-align: center; /* Center all columns except for the first one (Name) */
+        }
+		
 		
 					
 	
@@ -468,7 +508,8 @@
 <!-- Tabbed Menu - will auto resize to fit width by % -->
 <div class="tab">
   <button class="tablinks active" onclick="openTab(event, 'deviceCollection')">Device Collection</button>
-  <button class="tablinks" onclick="openTab(event, 'adobeForm')">Adobe Form</button>
+  <!-- <button class="tablinks" onclick="openTab(event, 'adobeForm')">Adobe Form</button> --> <!-- temp hide -->
+  <button class="tablinks" onclick="openTab(event, 'forms')">Forms</button>
   <!-- add additional tabs here -->
 </div>
 
@@ -753,33 +794,112 @@
 </div>
 <!-- adobe form end -->	
 
-<!-- locker tower name start -->	
-<div id="bayName" class="tabcontent">
+
+
+<div id="forms" class="tabcontent">
 <br><br>
 <div class="border-container">
-this tab will be merged with device collection in future version
-<br>
-<!-- Clear all/reset -->
-<button type="button" id="bayNameClearBtn">
-	<i class="fa-solid fa-rotate-right" title="Clear All" onclick = "resetBayNameForm()"></i>
-</button>
-<br><br>
-<input type="text" id="bayNumber" style = "width: 300px;" placeholder="Bay Number" oninput = "updateBayNameOutput()" maxlength="2"/>
-<br><br>
-<input type="text" id="ritm" style = "width: 300px;" placeholder="RITM #" oninput = "updateBayNameOutput()"/>
-<br><br>
-<input type="text" id="endUser" style = "width: 300px;" placeholder="Users name" oninput = "updateBayNameOutput()"/>
-<br><br><br>
-<!-- Output -->
-<div id="bayNameOutput" class="formatted-text" contenteditable="true"></div>
-<br>
-<button id="copyButton" onclick="copyToClipboard('bayNameOutput', 'copyButton')">
-    <i class="fas fa-copy icon"></i>
-</button>Paste into the PC Locker bay name field.
 
+<table border="1">
+        <tr>
+            <th style="width: 600px;">Name</th>
+            <th style="width: 20px;">Link</th>
+            <!-- <th style="width: 20px;">Copy</th>
+			<th style="width: 20px;">Email</th>
+			<th style="width: 20px;">Teams</th> -->
+        </tr>
+		
+		<!-- adobe -->
+        <tr>
+            <td>Adobe</td>
+			<td><a href="https://rmititsm.service-now.com/sp?id=sc_cat_item&sys_id=a76e2d1887a3c290f8b455b97bbb350a" target="_blank">Open</a></td>
+			<!-- <td></td>
+			<td></td>
+			<td></td> -->
+        </tr>
+		
+		<!-- PW Reset -->
+		<tr>
+				<td>Password Reset</td>
+				<td><a href="https://sspr.rmit.edu.au/sspr/public/forgottenpassword" target="_blank">Open</a></td>
+				<!-- <td></td>
+				<td></td>
+				<td></td>   --> 
+			</tr> 
+		
+		<!-- Elevated rights -->
+        <tr>
+            <td>Elevated rights</td>
+			<td><a href="https://rmititsm.service-now.com/sp?id=sc_cat_item&sys_id=09bc9b90db3ae150d8257b53f39619c5" target="_blank">Open</a></td>
+			<!-- <td></td>
+			<td></td>
+			<td></td> -->
+        </tr>
+		
+		<!-- PAM account -->
+        <tr>
+            <td>PAM account</td>
+			<td><a href="https://rmititsm.service-now.com/sp?id=sc_cat_item&sys_id=8d89abe0874ded502a71862c8bbb3566" target="_blank">Open</a></td>
+			<!-- <td></td>
+			<td></td>
+			<td></td> -->
+        </tr>
+		
+		<!-- Powershell access -->
+        <tr>
+            <td>Powershell access</td>
+			<td><a href="https://rmititsm.service-now.com/sp?id=sc_cat_item&sys_id=875b02f4873e65102a71862c8bbb3563" target="_blank">Open</a></td>
+			<!-- <td></td>
+			<td></td>
+			<td></td> -->
+        </tr>
+		
+		<!-- Existing software request -->
+        <tr>
+            <td>Existing software request</td>
+			<td><a href="https://rmititsm.service-now.com/sp?id=sc_cat_item&sys_id=41b97ff5db726110d8257b53f39619d0" target="_blank">Open</a></td>
+			<!-- <td></td>
+			<td></td>
+			<td></td> -->
+        </tr>
+		
+		<!-- Teaching Space software request -->
+        <tr>
+            <td>Teaching Space software request</td>
+			<td><a href="https://rmititsm.service-now.com/sp?id=sc_cat_item&sys_id=053cb2fddb0ee70000b542a014961986" target="_blank">Open</a></td>
+			<!-- <td></td>
+			<td></td>
+			<td></td> -->
+        </tr>
+		
+		<!-- EU decom -->
+        <tr>
+            <td>End User Decom</td>
+			<td><a href="https://rmititsm.service-now.com/sp?id=sc_cat_item&sys_id=d0ea9b7f4ffa17002a4866a01310c7ec" target="_blank">Open</a></td>
+			<!-- <td></td>
+			<td></td>
+			<td></td> -->
+        </tr>
+		
+		<!-- new link template -->
+        <!-- 
+			<tr>
+				<td>Name here</td>
+				<td><a href="link here" target="_blank">Open</a></td>
+				<td></td>
+				<td></td>
+				<td></td>   
+			</tr> 
+		-->
+        
+		
+		
+    </table>
+	
 </div>
-</div>
-<!-- locker tower name end -->
+</div> 
+
+
 
 <!-- future tabs here 	 -->
 
