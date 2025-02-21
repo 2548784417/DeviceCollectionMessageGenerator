@@ -735,20 +735,20 @@ a:hover {
 		</div>
 		
 		<!-- pin copy field for mini view -->
-		<div id = "miniPinOutputFields">
+		<!-- <div id = "miniPinOutputFields">
 			<div class="border-container">
 	
-				<!-- Copy Pin email Btn -->
+				
 				<p>Pin Email <button id="copyButton3" onclick="copyToClipboard('outputPIN', 'copyButton3')">
 				<i class="fas fa-copy icon"></i> 
 				</button>
 				
-				<!-- email Pin BTn -->
+				
 				<button id="emailPin2" onclick = "emailPin()">
 					<i class="fa-solid fa-envelope" title="Email to user"></i>
 				</button></p>
 			</div>
-		</div>
+		</div> -->
 
 		<!-- Output Field for Device collection text -->
 		<div id="outputCollection" class="formatted-text" style="width: 100%; height: 315px; border: 1px solid #444; padding: 10px; overflow-y: auto;" contenteditable="false"></div>
@@ -934,39 +934,41 @@ a:hover {
 
 <script>
 //GENERIC SCRIPTS
-	//listen to window changes
-	window.addEventListener("resize", updateTitle);
-	updateTitle();
+	
+	
 	
 	// On load settings
-    window.onload = function() 
-	{
-		const expandBtn= document.getElementById("expandBtn");
-		expandBtn.style.display = "none";
-		
-		const hiddenRow = document.getElementById("hiddenRow");
-		hiddenRow.style.display = "none";
+   // Manually trigger the resize function when the page loads
+window.onload = function() {
+    const expandBtn = document.getElementById("expandBtn");
+    if (expandBtn) expandBtn.style.display = "none";
 
-		document.getElementById("brandnew").checked = true; // Automatically select "Brand new device"
-		document.getElementById("return").checked = true; // Automatically select "Return Device"
-		document.getElementById("locker").checked = true;
-			
-			
-		document.getElementById('start1').addEventListener('input', updateLocation);
-		document.getElementById('end1').addEventListener('input', updateLocation);
-		document.getElementById('start2').addEventListener('input', updateLocation);
-		document.getElementById('end2').addEventListener('input', updateLocation);
+    const hiddenRow = document.getElementById("hiddenRow");
+    if (hiddenRow) hiddenRow.style.display = "none";
 
-	
-		
-		updateTitle();
-	
-		// Hide the opening hours fields by default
-		document.getElementById('start1').style.display = "none";
-		document.getElementById('end1').style.display = "none";
-		document.getElementById('start2').style.display = "none";
-		document.getElementById('end2').style.display = "none"
-    };
+    document.getElementById("brandnew").checked = true; // Automatically select "Brand new device"
+    document.getElementById("return").checked = true; // Automatically select "Return Device"
+    document.getElementById("locker").checked = true;
+
+    // Add event listeners
+    document.getElementById('start1').addEventListener('input', updateLocation);
+    document.getElementById('end1').addEventListener('input', updateLocation);
+    document.getElementById('start2').addEventListener('input', updateLocation);
+    document.getElementById('end2').addEventListener('input', updateLocation);
+
+    // Call the title update function for the first load
+    updateTitle(); // Ensure layout is updated
+
+    // Hide the opening hours fields by default
+    hideOpeningHours(); 
+
+    // Manually trigger the resize event to apply layout based on current window size
+    window.dispatchEvent(new Event('resize'));
+};
+
+//listen to window changes
+	window.addEventListener("resize", updateTitle);
+
 	
 	//top menu
 	 function openTab(evt, tabName) {
@@ -1004,7 +1006,7 @@ a:hover {
 		const firstRow = document.getElementById('firstRow'); 
 		const secondRow = document.getElementById('secondRow'); 
 		const thirdRow = document.getElementById('thirdRow'); 
-		let verticalLines = document.querySelectorAll('.vertical-line1');
+		const verticalLines = document.querySelectorAll('.vertical-line1');
 		const checkboxContainer = document.querySelector('.checkbox-container');
 		const localLabel = document.getElementById('locationLabel');
 		const localDropbox= document.getElementById('locationSelect');
@@ -1012,7 +1014,7 @@ a:hover {
 		const collapseBtn = document.getElementById('collapseBtn');
 		const lockerLabel = document.getElementById('lockerLabel');
 		const borderContainer = document.querySelector('.border-container');
-		const miniPinOutputFields = document.getElementById('miniPinOutputFields');
+		//const miniPinOutputFields = document.getElementById('miniPinOutputFields');
 		const pinOutputFields = document.getElementById('pinOutputFields');
 		const outputCollection = document.getElementById('outputCollection');
 		const clearBtn = document.getElementById("clearAllBtn");
@@ -1033,11 +1035,9 @@ a:hover {
 						secondRow.style.height = '20%';
 						thirdRow.style.height = '20%';
 						
-					
-						
 						document.body.style.padding = '1px';
-						pinOutputFields.style.display = 'none';
-						miniPinOutputFields.style.display = 'block';
+						pinOutputFields.style.display = 'block';
+						//miniPinOutputFields.style.display = 'block';
 						outputCollection.style.display = 'none';
 						
 						clearAllBtn.style.display = 'block';  // or 'inline-block' if you prefer
@@ -1095,13 +1095,9 @@ a:hover {
 						bayInput.style.width = '90%';
 						collapseBtn.style.display = 'none';
 						bayInput.options[0].textContent = 'Bay #'; // Change text for the first option
-						
-						
-					
-						
-						
-						
+		
 					} 
+					
 				else //if halfscreen
 					{
 						titleElement.textContent = "Device Collection Template Generator"; 
@@ -1110,8 +1106,7 @@ a:hover {
 						firstRow.style.height = '30px';
 						secondRow.style.height = '30px';
 						thirdRow.style.height = '30px';
-						pinOutputFields.style.display = 'block';
-						miniPinOutputFields.style.display = 'none';
+						
 						
 						clearAllBtn.style.display = '';  // Reset to original display property
 						clearAllBtn.style.float = '';    // Remove custom inline float
@@ -1150,23 +1145,20 @@ a:hover {
 						
 						document.body.style.padding = '20px';
 						
-						outputCollection.style.display = 'block';
+						
 						
 					}
 			} 
-		else //if fullscreen or normal
+		else if (window.innerWidth >= 885)//if fullscreen or normal
 			{
 				titleElement.textContent = "RMIT/Compnow Device Collection Template Generator"; 
 				firstRow.style.height = '30px';
 				secondRow.style.height = '30px';
 				thirdRow.style.height = '30px';
-				
-				miniPinOutputFields.style.display = 'none';
+
 				
 			}
 		
-		
-
 	}
 	
 	function copyToClipboard(divId, buttonId)
