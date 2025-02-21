@@ -9,7 +9,7 @@
             background-color: #121212; /* Dark background */
             color: #ffffff; /* Light text color */
             font-family: Arial, sans-serif;
-            padding: 20px; /* Add some padding */
+            padding: 10px; /* Add some padding */
         }
 
         .formatted-text {
@@ -333,6 +333,7 @@
 		/* Optionally, you can add a style for when a tab is active */
 		.tabcontent.active {
 			display: block; /* Show the active tab content */
+			
 		}
 		
 		
@@ -523,9 +524,9 @@ a:hover {
     <div class="checkbox-container">
 		<!-- location box -->
 		<div id = "locationBox" class= "sub-box-short"> 
-		<label id= "locationLabel">Techbar Location</label>
+		<label id= "locationLabel">Techbar</label>
         <select id="locationSelect" onchange = "checkLocation()">
-            <option value="" disabled selected>--Select--</option>
+            <option value="" disabled selected>Location</option>
             <option value="80">80 - City</option>
             <option value="106">106 - City</option>
             <option value="94">94 - City</option>
@@ -539,7 +540,7 @@ a:hover {
 		
 		<div id = "lockerBox" class= "sub-box-short"> 
 		<!-- locker or techbar radios -->
-        <label>
+        <label id = "lockerLabel">
             <input type="radio" id="locker" name="techbarOption" value="Device in Locker" onchange="updateLocation()">
             Assigned Locker
         </label>
@@ -725,15 +726,33 @@ a:hover {
 
 
  <br>
+		<div id = "bayOutputFields">
+			<div class="border-container">
+				<!-- copy -->
+				<p>Collection Email <button id="copyButton1" onclick="copyToClipboard('outputCollection', 'copyButton1')">
+				<i class="fas fa-copy icon"></i> </button></p>
+			</div>
+		</div>
 		
-		<!-- copy -->
-		<p>Collection Email <button id="copyButton1" onclick="copyToClipboard('outputCollection', 'copyButton1')">
-        <i class="fas fa-copy icon"></i> </button>
-		
+		<!-- pin copy field for mini view -->
+		<div id = "miniPinOutputFields">
+			<div class="border-container">
+	
+				<!-- Copy Pin email Btn -->
+				<p>Pin Email <button id="copyButton3" onclick="copyToClipboard('outputPIN', 'copyButton3')">
+				<i class="fas fa-copy icon"></i> 
+				</button>
+				
+				<!-- email Pin BTn -->
+				<button id="emailPin2" onclick = "emailPin()">
+					<i class="fa-solid fa-envelope" title="Email to user"></i>
+				</button></p>
+			</div>
+		</div>
 
 		<!-- Output Field for Device collection text -->
 		<div id="outputCollection" class="formatted-text" style="width: 100%; height: 315px; border: 1px solid #444; padding: 10px; overflow-y: auto;" contenteditable="false"></div>
-
+		
 		<br>
 		
 		<div id = "pinOutputFields">
@@ -917,6 +936,7 @@ a:hover {
 //GENERIC SCRIPTS
 	//listen to window changes
 	window.addEventListener("resize", updateTitle);
+	updateTitle();
 	
 	// On load settings
     window.onload = function() 
@@ -980,40 +1000,173 @@ a:hover {
 	function updateTitle() 
 	{
 		const titleElement = document.getElementById("maintitle");
-		
-		// Get the <select> element
+		const alertElement = document.querySelector('.alert'); 
+		const firstRow = document.getElementById('firstRow'); 
+		const secondRow = document.getElementById('secondRow'); 
+		const thirdRow = document.getElementById('thirdRow'); 
+		let verticalLines = document.querySelectorAll('.vertical-line1');
+		const checkboxContainer = document.querySelector('.checkbox-container');
+		const localLabel = document.getElementById('locationLabel');
+		const localDropbox= document.getElementById('locationSelect');
 		const bayInput = document.getElementById('bayInput');
+		const collapseBtn = document.getElementById('collapseBtn');
+		const lockerLabel = document.getElementById('lockerLabel');
+		const borderContainer = document.querySelector('.border-container');
+		const miniPinOutputFields = document.getElementById('miniPinOutputFields');
+		const pinOutputFields = document.getElementById('pinOutputFields');
+		const outputCollection = document.getElementById('outputCollection');
+		const clearBtn = document.getElementById("clearAllBtn");
+		
+		
 		
 		// Find the option with the value of "" (empty value, the default placeholder)
 		const defaultOption = bayInput.querySelector('option[value=""]');
     
 	
-		if (window.innerWidth <= 1000)
-		{
-			titleElement.textContent = "Device Collection Template Generator"; // Shortened text for mobile
-		} 
-		else 
-		{
-			titleElement.textContent = "Compnow Melbourne - Device Collection Template Generator"; // Default text
-		}
-		
-		if (window.innerWidth <= 884)
-		{
-			
-			
-			// Change the text content of the option
-			if (defaultOption) 
+		 if (window.innerWidth <= 884) //if halfscreen
 			{
-				defaultOption.textContent = "Bay"; // Change the text here
-				bayBox.style.width="100px";
+				 if (window.innerWidth <= 600) //if super mini
+					{
+
+						//sizing
+						firstRow.style.height = '20%';
+						secondRow.style.height = '20%';
+						thirdRow.style.height = '20%';
+						
+					
+						
+						document.body.style.padding = '1px';
+						pinOutputFields.style.display = 'none';
+						miniPinOutputFields.style.display = 'block';
+						outputCollection.style.display = 'none';
+						
+						clearAllBtn.style.display = 'block';  // or 'inline-block' if you prefer
+						clearAllBtn.style.marginLeft = '0';   // Ensure no margin on the left side
+						clearAllBtn.style.float = 'none';     // Remove float
+						
+						
+						
+						
+						//remove lines
+						verticalLines.forEach(function(line)
+						{
+							line.remove(); 
+						});
+						
+						
+						// Resize and stack all checkbox containers vertically
+						const checkboxContainers = document.querySelectorAll('.checkbox-container');
+						checkboxContainers.forEach(function(checkboxContainer) 
+						{
+							checkboxContainer.style.flexDirection = 'column'; // Stack checkboxes vertically
+							checkboxContainer.style.alignItems = 'flex-start'; // Align checkboxes to the left (or center)
+							//checkboxContainer.style.width = '100%';
+						});
+						
+						// Resize and stack all sub-box-short containers vertically
+						const subBoxShortContainers = document.querySelectorAll('.sub-box-short');
+						subBoxShortContainers.forEach(function(subBoxShortContainer) {
+							//subBoxShortContainer.style.flexDirection = 'column'; // Stack elements vertically
+							subBoxShortContainer.style.alignItems = 'flex-start'; // Align items to the left (or center)
+							subBoxShortContainer.style.width = '100%'; // Set width to 100%
+						});
+						
+						// Change padding for all border containers
+						const borderContainers = document.querySelectorAll('.border-container');
+						borderContainers.forEach(function(borderContainer) {
+							borderContainer.style.padding = '5px'; // Adjust padding for small screens
+							
+						});
+
+						
+						
+						//text
+						titleElement.textContent = ""; 
+						titleElement.style.fontSize = '16px';
+						alertElement.textContent = "Double Check Output";
+						alertElement.style.fontSize = '11px';
+						
+						
+						//location box
+						localLabel.style.display = "none";
+						localDropbox.style.width = '100px';
+						
+						//bay box
+						bayInput.style.width = '90%';
+						collapseBtn.style.display = 'none';
+						bayInput.options[0].textContent = 'Bay #'; // Change text for the first option
+						
+						
+					
+						
+						
+						
+					} 
+				else //if halfscreen
+					{
+						titleElement.textContent = "Device Collection Template Generator"; 
+						titleElement.style.fontSize = '32px';
+						alertElement.style.fontSize = '16px';
+						firstRow.style.height = '30px';
+						secondRow.style.height = '30px';
+						thirdRow.style.height = '30px';
+						pinOutputFields.style.display = 'block';
+						miniPinOutputFields.style.display = 'none';
+						
+						clearAllBtn.style.display = '';  // Reset to original display property
+						clearAllBtn.style.float = '';    // Remove custom inline float
+						clearAllBtn.classList.add('button-float-right');  // Ensure class is applied
+						
+						
+						//location box
+						localLabel.style.display = "block";
+						localDropbox.style.width = '100%';
+						
+						 // Reset checkboxes to horizontal layout
+						const checkboxContainers = document.querySelectorAll('.checkbox-container');
+						checkboxContainers.forEach(function(checkboxContainer) 
+						{
+							checkboxContainer.style.flexDirection = 'row'; // Reset to horizontal layout
+							checkboxContainer.style.alignItems = 'center'; // Align checkboxes to the center
+							checkboxContainer.style.width = 'auto';
+						});	
+						
+						collapseBtn.style.display = 'block';
+						
+						// Resize and stack all sub-box-short containers vertically
+						const subBoxShortContainers = document.querySelectorAll('.sub-box-short');
+						subBoxShortContainers.forEach(function(subBoxShortContainer) {
+							subBoxShortContainer.style.width = '20%'; // Set width to 100%
+						});
+						
+						// Change padding for all border containers back to default
+						const borderContainers = document.querySelectorAll('.border-container');
+						borderContainers.forEach(function(borderContainer) {
+							borderContainer.style.padding = '10px'; // Default padding for larger screens
+						});
+						
+						//Text
+						bayInput.options[0].textContent = 'Select Bay Number'; // Change text for the first option
+						
+						document.body.style.padding = '20px';
+						
+						outputCollection.style.display = 'block';
+						
+					}
+			} 
+		else //if fullscreen or normal
+			{
+				titleElement.textContent = "RMIT/Compnow Device Collection Template Generator"; 
+				firstRow.style.height = '30px';
+				secondRow.style.height = '30px';
+				thirdRow.style.height = '30px';
+				
+				miniPinOutputFields.style.display = 'none';
+				
 			}
-			
-			
-		} 
-		else 
-		{
-			defaultOption.textContent = "Select Bay Number"; // Change the text here
-		}
+		
+		
+
 	}
 	
 	function copyToClipboard(divId, buttonId)
