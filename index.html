@@ -459,13 +459,15 @@
 		
 		a {
     color: white; /* Set link color to white */
+	text-decoration: none; /* Remove underline from links */
     
 }
 
 a:hover {
     color: #ddd; 
-	text-decoration: none; /* Remove underline from links */
+	
 	font-weight: bold;
+	text-decoration: underline;
 }
  th:nth-child(n+2), td:nth-child(n+2) {
             text-align: center; /* Center all columns except for the first one (Name) */
@@ -806,16 +808,14 @@ a:hover {
 <table border="1">
         <tr>
             <th style="width: 600px;">Name</th>
-            <th style="width: 20px;">Link</th>
             <!-- <th style="width: 20px;">Copy</th>
 			<th style="width: 20px;">Email</th>
 			<th style="width: 20px;">Teams</th> -->
         </tr>
 		
 		<!-- adobe -->
-        <tr>
-            <td>Adobe</td>
-			<td><a href="https://rmititsm.service-now.com/sp?id=sc_cat_item&sys_id=a76e2d1887a3c290f8b455b97bbb350a" target="_blank">Open</a></td>
+        <tr>       
+			<td><a href="https://rmititsm.service-now.com/sp?id=sc_cat_item&sys_id=a76e2d1887a3c290f8b455b97bbb350a" target="_blank">Adobe</a></td>
 			<!-- <td></td>
 			<td></td>
 			<td></td> -->
@@ -823,8 +823,7 @@ a:hover {
 		
 		<!-- PW Reset -->
 		<tr>
-				<td>Password Reset</td>
-				<td><a href="https://sspr.rmit.edu.au/sspr/public/forgottenpassword" target="_blank">Open</a></td>
+				<td><a href="https://sspr.rmit.edu.au/sspr/public/forgottenpassword" target="_blank">Password Reset</a></td>
 				<!-- <td></td>
 				<td></td>
 				<td></td>   --> 
@@ -832,8 +831,7 @@ a:hover {
 		
 		<!-- Elevated rights -->
         <tr>
-            <td>Elevated rights</td>
-			<td><a href="https://rmititsm.service-now.com/sp?id=sc_cat_item&sys_id=09bc9b90db3ae150d8257b53f39619c5" target="_blank">Open</a></td>
+			<td><a href="https://rmititsm.service-now.com/sp?id=sc_cat_item&sys_id=09bc9b90db3ae150d8257b53f39619c5" target="_blank">Elevated rights</a></td>
 			<!-- <td></td>
 			<td></td>
 			<td></td> -->
@@ -841,8 +839,7 @@ a:hover {
 		
 		<!-- PAM account -->
         <tr>
-            <td>PAM account</td>
-			<td><a href="https://rmititsm.service-now.com/sp?id=sc_cat_item&sys_id=8d89abe0874ded502a71862c8bbb3566" target="_blank">Open</a></td>
+			<td><a href="https://rmititsm.service-now.com/sp?id=sc_cat_item&sys_id=8d89abe0874ded502a71862c8bbb3566" target="_blank">PAM account</a></td>
 			<!-- <td></td>
 			<td></td>
 			<td></td> -->
@@ -850,8 +847,7 @@ a:hover {
 		
 		<!-- Powershell access -->
         <tr>
-            <td>Powershell access</td>
-			<td><a href="https://rmititsm.service-now.com/sp?id=sc_cat_item&sys_id=875b02f4873e65102a71862c8bbb3563" target="_blank">Open</a></td>
+			<td><a href="https://rmititsm.service-now.com/sp?id=sc_cat_item&sys_id=875b02f4873e65102a71862c8bbb3563" target="_blank">Powershell access</a></td>
 			<!-- <td></td>
 			<td></td>
 			<td></td> -->
@@ -859,8 +855,7 @@ a:hover {
 		
 		<!-- Existing software request -->
         <tr>
-            <td>Existing software request</td>
-			<td><a href="https://rmititsm.service-now.com/sp?id=sc_cat_item&sys_id=41b97ff5db726110d8257b53f39619d0" target="_blank">Open</a></td>
+			<td><a href="https://rmititsm.service-now.com/sp?id=sc_cat_item&sys_id=41b97ff5db726110d8257b53f39619d0" target="_blank">Existing software request</a></td>
 			<!-- <td></td>
 			<td></td>
 			<td></td> -->
@@ -868,8 +863,7 @@ a:hover {
 		
 		<!-- Teaching Space software request -->
         <tr>
-            <td>Teaching Space software request</td>
-			<td><a href="https://rmititsm.service-now.com/sp?id=sc_cat_item&sys_id=053cb2fddb0ee70000b542a014961986" target="_blank">Open</a></td>
+			<td><a href="https://rmititsm.service-now.com/sp?id=sc_cat_item&sys_id=053cb2fddb0ee70000b542a014961986" target="_blank">Teaching Space software request</a></td>
 			<!-- <td></td>
 			<td></td>
 			<td></td> -->
@@ -877,8 +871,7 @@ a:hover {
 		
 		<!-- EU decom -->
         <tr>
-            <td>End User Decom</td>
-			<td><a href="https://rmititsm.service-now.com/sp?id=sc_cat_item&sys_id=d0ea9b7f4ffa17002a4866a01310c7ec" target="_blank">Open</a></td>
+			<td><a href="https://rmititsm.service-now.com/sp?id=sc_cat_item&sys_id=d0ea9b7f4ffa17002a4866a01310c7ec" target="_blank">End User Decom</a></td>
 			<!-- <td></td>
 			<td></td>
 			<td></td> -->
@@ -887,8 +880,7 @@ a:hover {
 		<!-- new link template -->
         <!-- 
 			<tr>
-				<td>Name here</td>
-				<td><a href="link here" target="_blank">Open</a></td>
+				<td><a href="link here" target="_blank">Name Here</a></td>
 				<td></td>
 				<td></td>
 				<td></td>   
