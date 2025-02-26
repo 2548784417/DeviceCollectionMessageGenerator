@@ -733,22 +733,6 @@ a:hover {
 				<i class="fas fa-copy icon"></i> </button></p>
 			</div>
 		</div>
-		
-		<!-- pin copy field for mini view -->
-		<!-- <div id = "miniPinOutputFields">
-			<div class="border-container">
-	
-				
-				<p>Pin Email <button id="copyButton3" onclick="copyToClipboard('outputPIN', 'copyButton3')">
-				<i class="fas fa-copy icon"></i> 
-				</button>
-				
-				
-				<button id="emailPin2" onclick = "emailPin()">
-					<i class="fa-solid fa-envelope" title="Email to user"></i>
-				</button></p>
-			</div>
-		</div> -->
 
 		<!-- Output Field for Device collection text -->
 		<div id="outputCollection" class="formatted-text" style="width: 100%; height: 315px; border: 1px solid #444; padding: 10px; overflow-y: auto;" contenteditable="false"></div>
@@ -768,10 +752,10 @@ a:hover {
 					<i class="fa-solid fa-envelope" title="Email to user"></i>
 				</button></p>
 			</div>
-			
+		</div>
 		<!-- Output Field for Pin email text -->
 		<div id="outputPIN" class="formatted-text" style="width: 100%; height: 280px; border: 1px solid #444; padding: 10px; overflow-y: auto;" contenteditable="false"></div>
-		</div>
+		
 </div>
 <!-- collection form end -->
 
@@ -1016,6 +1000,7 @@ window.onload = function() {
 		const borderContainer = document.querySelector('.border-container');
 		//const miniPinOutputFields = document.getElementById('miniPinOutputFields');
 		const pinOutputFields = document.getElementById('pinOutputFields');
+		const outputPinField = document.getElementById('outputPIN');
 		const outputCollection = document.getElementById('outputCollection');
 		const clearBtn = document.getElementById("clearAllBtn");
 		
@@ -1036,9 +1021,10 @@ window.onload = function() {
 						thirdRow.style.height = '20%';
 						
 						document.body.style.padding = '1px';
-						pinOutputFields.style.display = 'block';
+						//pinOutputFields.style.display = 'block';
 						//miniPinOutputFields.style.display = 'block';
 						outputCollection.style.display = 'none';
+						outputPinField.style.display = 'none';
 						
 						clearAllBtn.style.display = 'block';  // or 'inline-block' if you prefer
 						clearAllBtn.style.marginLeft = '0';   // Ensure no margin on the left side
@@ -1106,6 +1092,9 @@ window.onload = function() {
 						firstRow.style.height = '30px';
 						secondRow.style.height = '30px';
 						thirdRow.style.height = '30px';
+						
+						outputCollection.style.display = 'block';
+						outputPinField.style.display = 'block';
 						
 						
 						clearAllBtn.style.display = '';  // Reset to original display property
