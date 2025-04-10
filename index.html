@@ -473,6 +473,30 @@ a:hover {
             text-align: center; /* Center all columns except for the first one (Name) */
         }
 		
+		/* Styling for the toast */
+.toast {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  bottom: 60px;
+  font-size: 17px;
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Visible toast with opacity */
+.toast.show {
+  visibility: visible;
+  opacity: 1;
+}
+		
 		
 					
 	
@@ -640,14 +664,20 @@ a:hover {
 		
 		<div id = "pinBox" class="sub-box-short" > 
             <!-- PIN generate -->
-            <input type="text" id="pinInput" readonly placeholder="Generate 6 digit PIN →" onchange="updateOutputPin()" />
+            <input type="text" id="pinInput" readonly placeholder="Generate PIN →" onchange="updateOutput()" />
+			<input type="hidden" id="actualPin" />
+			<button id="hidePinBtn" onclick="pinVis()" disabled class="disabled">
+				<i class="fa-regular fa-eye" title="Show PIN"></i>
+			</button>
+
             <button id="pinGenBtn" onclick="genFillPin()">
 			<i class="fa-solid fa-retweet" title="Generate 6 Digit PIN"></i>
 			</button>
             <!-- Copy PIN button -->
-            <button id="copyButton4" onclick="copyPin()">
+            <button id="copyButton4" onclick="copyPin()" disabled class="disabled">
                 <i class="fas fa-copy icon" title="Copy PIN to Clipboard" ></i> <!-- Copy icon -->
             </button>
+			
 
 		</div>
 		
@@ -731,7 +761,7 @@ a:hover {
 		<div id = "bayOutputFields">
 			<div class="border-container">
 				<!-- copy -->
-				<p>Collection Email <button id="copyButton1" onclick="copyToClipboard('outputCollection', 'copyButton1')">
+				<p>Bay Email <button id="copyButton1" onclick="copyToClipboard('outputCollection', 'copyButton1')">
 				<i class="fas fa-copy icon"></i> </button></p>
 			</div>
 		</div>
@@ -877,13 +907,18 @@ a:hover {
 			<td></td> -->
         </tr>
 		
+		<tr>
+				<td><a href="https://www.papercut.com/help/manuals/mobility-print/setting-up-a-device-mdns-dns/client-setup-windows/" target="_blank">Papercut Windows</a></td>   
+		</tr>
+			
+		<tr>
+				<td><a href="https://download.respondus.com/lockdown/download.php?ID=757253166" target="_blank">Respondus Lockdown Browser</a></td>  
+		</tr> 
+		
 		<!-- new link template -->
         <!-- 
 			<tr>
-				<td><a href="link here" target="_blank">Name Here</a></td>
-				<td></td>
-				<td></td>
-				<td></td>   
+				<td><a href="link here" target="_blank">Name Here</a></td>  
 			</tr> 
 		-->
         
@@ -940,10 +975,21 @@ window.onload = function() {
 
     // Manually trigger the resize event to apply layout based on current window size
     window.dispatchEvent(new Event('resize'));
+	
+	
 };
 
 //listen to window changes
-	window.addEventListener("resize", updateTitle);
+	window.addEventListener('DOMContentLoaded', () => {
+    updateTitle(); // Run it once with current dimensions
+		});
+
+		// Run on window resize
+		window.addEventListener('resize', () => {
+			updateTitle();
+		});
+			
+
 
 	
 	//top menu
@@ -977,6 +1023,8 @@ window.onload = function() {
 	//updates main title based on window size
 	function updateTitle() 
 	{
+	
+		const width = window.innerWidth;
 		const titleElement = document.getElementById("maintitle");
 		const alertElement = document.querySelector('.alert'); 
 		const firstRow = document.getElementById('firstRow'); 
@@ -1002,10 +1050,11 @@ window.onload = function() {
 		const defaultOption = bayInput.querySelector('option[value=""]');
     
 	
-		 if (window.innerWidth <= 884) //if halfscreen
+		 if (width <= 884) //if halfscreen
 			{
-				 if (window.innerWidth <= 600) //if super mini
+				 if (width <= 800) //if super mini
 					{
+						
 
 						//sizing
 						firstRow.style.height = '20%';
@@ -1022,7 +1071,7 @@ window.onload = function() {
 						clearAllBtn.style.marginLeft = '0';   // Ensure no margin on the left side
 						clearAllBtn.style.float = 'none';     // Remove float
 						
-						
+					
 						
 						
 						//remove lines
@@ -1130,7 +1179,7 @@ window.onload = function() {
 						
 					}
 			} 
-		else if (window.innerWidth >= 885)//if fullscreen or normal
+		else if (width >= 885)//if fullscreen or normal
 			{
 				titleElement.textContent = "RMIT/Compnow Device Collection Template Generator"; 
 				firstRow.style.height = '30px';
@@ -1257,6 +1306,7 @@ window.onload = function() {
 	const copyCollectionBtn = document.getElementById('copyButton1');
 
 	const pinInput = document.getElementById('pinInput');
+	const pinHideBtn = document.getElementById('hidePinBtn');
 	const pinGenBtn = document.getElementById('pinGenBtn');
 	const pinCopyBtn = document.getElementById('copyButton4');
 	
@@ -1282,7 +1332,7 @@ window.onload = function() {
 
 	function allButtonsUsable(enable)
 	{	
-		const elements = [collapseBtn,copyCollectionBtn,emailPINBtn,copyPinBtn,clearAllBtn,copyBayOutput,nameSettings, ritmInput,nameInput, pinCopyBtn,pinGenBtn,pinInput,bayInput,lockerBtn,lockerBox,staffBtn,staffBox,brandNewBtn,brandNewBox,returnBtn,returnBox,accessoryBtn,accessoryBox];
+		const elements = [collapseBtn,copyCollectionBtn,emailPINBtn,copyPinBtn,clearAllBtn,copyBayOutput,nameSettings, ritmInput,nameInput,pinGenBtn,pinInput,bayInput,lockerBtn,lockerBox,staffBtn,staffBox,brandNewBtn,brandNewBox,returnBtn,returnBox,accessoryBtn,accessoryBox];
 
 		elements.forEach(element => {
 			element.disabled = !enable; // Set disabled based on the enable parameter
@@ -1352,7 +1402,7 @@ window.onload = function() {
 		var name = document.getElementById('nameInput').value;
 		const nameOptions =  document.getElementsByName("nameOption");
 		let selectedValue = '';
-		var pin = document.getElementById('pinInput').value;
+		var pin = document.getElementById('actualPin').value;
 		var outputNamePin = ``;
 		var outputNameCollection = ``;
 		var outputPINnumber = `${pin}`;
@@ -1365,6 +1415,7 @@ window.onload = function() {
 		var end1 = document.getElementById('end1');
 		var start2 = document.getElementById('start2');
 		var end2 = document.getElementById('end2');
+		
 		
 		
 
@@ -1540,7 +1591,7 @@ window.onload = function() {
 			// Update firstLine based on whether accessoryBtn or brandNewBtn is checked
 			if (returnBtn.checked) 
 			{
-				fourthLine = `\n\nIf you have an old computer, you will need to return it with the charger to the Techbar when you collect your new device.`;
+				fourthLine = `\n\nIf you have an old computer, you will need to return it with the charger, please place it in the same locker bay as your new device, or hand it to the Techbar staff upon collection.`;
 			}
 			// Update firstLine based on whether accessoryBtn or brandNewBtn is checked
 			if (!returnBtn.checked) 
@@ -1556,47 +1607,151 @@ window.onload = function() {
 			var outputCollection = document.getElementById('outputCollection');
 			
 			outputCollection.textContent = outputNameCollection + firstLine + location + secondLine + outputBay + thirdLine + fourthLine + finalLine;
-			outputPIN.textContent = outputNamePin + `The PIN for your RMIT Device Collection is: \n\n` + outputPINnumber + `\n\nTHIS PIN IS ACTIVE FOR 5 BUSINESS DAYS.\n\nFor security reasons, the hardware deployment ticket contains your locker location and Bay Number.\n\nIf you have any issues, please see TechBar staff during staffed hours.\n\nRegards,RMIT TechBar Team\n\nPlease do not reply to this email as it is an unmonitored inbox.`;
+			outputPIN.textContent = outputNamePin + `Your device has been assigned a locker in our PC Locker Tower and is ready for collection. \n\nThe PIN for your RMIT Device Collection is: \n\n` + outputPINnumber + `\n\nFor security reasons, you will receive a seperate Email containing your Locker Bay Number.\n\nYou will be required to collect your device during university operation hours within 5 business days.\n\nIf you have any issues, please see TechBar staff during staffed hours.\n\nRegards,RMIT TechBar Team.\n\nPlease do not reply to this email as it is an unmonitored inbox.`;
 
 	}
 
 	//PIN scripts
-	function genPin()
+	function genPin() 
 	{
+		pinHideBtn.disabled=false;
+		pinHideBtn.classList.remove("disabled");
+		
+		buttonState("copyButton4", false);
 		// Generate a random number between 0 and 999999
 		const randomNum = Math.floor(Math.random() * 1000000);
-		// Convert it to a string
+		// Convert it to a string and pad to ensure it's always 6 digits
 		const pin = String(randomNum).padStart(6, '0');
 		return pin;
+		updateOutput();
+		
+		buttonState("copyButton4", false);
+
+		
 	}
-	
+
+	// Function to generate and fill the PIN in the input field
 	function genFillPin() 
 	{
-			// generate new pin
-            const pin = genPin();
-			//set output field
-            document.getElementById('pinInput').value = pin;
-			updateOutput();
-    }
-	 	
+		// Generate a new PIN
+		const pin = genPin();
+		
+		// Store the actual PIN in the hidden field
+		document.getElementById('actualPin').value = pin;
+
+		// Display the PIN with the last 3 digits masked (***)
+		const maskedPin = pin.slice(0, 3) + '***';
+		document.getElementById('pinInput').value = maskedPin;
+
 	
+		updateOutput();
+	}
+	 	
+	function buttonState (btnId, btnOff)
+	{
+		const button = document.getElementById(btnId);
+
+		if (button) 
+		{
+			if (btnOff)
+			{
+				// Disable the button and add the 'disabled' class
+				button.disabled = true;
+				button.classList.add("disabled");
+			} 
+			else
+			{
+				// Enable the button and remove the 'disabled' class
+				button.disabled = false;
+				button.classList.remove("disabled");
+			}
+		} 
+			
+	}
 	function resetPin()
 	{
 		var pinInput = document.getElementById('pinInput');
+		
             
             // Only reset if the pinInput field is not empty
             if (pinInput.value !== "") 
 			{
                 pinInput.value = "";
                 updateOutput();
+				buttonState("hidePinBtn",true);
+				buttonState("copyButton4", true);
 				
-				// Show alert when resetPin is called from setInterval
-                if (resetPin.isFromSetInterval) {
-                    pinToast('PIN reset for security reasons.');
-                    resetPin.isFromSetInterval = false; // Reset flag after alert
-                }
             }
 	}
+	
+	function pinVis() 
+	{
+		const width = window.innerWidth;
+		if (width <200)
+						{
+							document.getElementById("hidePinBtn").style.display = "none";
+													setTimeout(() => {
+								hidePinBtn.style.display = "block"; // You can use "inline-block" or "flex" depending on your layout
+							}, 800);
+						}
+						else
+						{	
+							document.getElementById("hidePinBtn").style.display = "block";
+						}
+		var pinInput = document.getElementById("pinInput");
+		var hidePinBtn = document.getElementById("hidePinBtn");
+		var pinGenBtn = document.getElementById("pinGenBtn");
+		var actualPin = document.getElementById("actualPin").value;
+		var icon = hidePinBtn.querySelector("i"); // Get the <i> element inside the button
+		
+
+		if (pinInput !== null) {
+			// Disable the button temporarily for 5 seconds
+			hidePinBtn.disabled = true;
+			hidePinBtn.classList.add("disabled");
+			pinGenBtn.disabled = true;
+			pinGenBtn.classList.add("disabled");
+			
+
+			// Toggle the input type between text and password
+			if (icon.classList.contains("fa-eye")) {
+				// Show the actual PIN
+				pinInput.value = actualPin;
+				icon.classList.remove("fa-eye");
+				icon.classList.add("fa-clock");
+			   
+				
+				// Revert the pin visibility back after 5 seconds
+				setTimeout(function() {
+					pinInput.value = actualPin.slice(0, 3) + '***';  // Mask the last 3 digits
+					icon.classList.remove("fa-clock");
+					icon.classList.add("fa-eye");
+					
+					
+					// Enable the button again after 5 seconds
+					hidePinBtn.disabled = false;
+					hidePinBtn.classList.remove("disabled");
+					pinGenBtn.disabled = false;
+					pinGenBtn.classList.remove("disabled");
+				}, 800); // 5000ms = 5 seconds
+			} 
+			else if (icon.classList.contains("fa-clock"))
+			{
+				// If it's already hidden, just show the masked PIN immediately
+				pinInput.value = actualPin.slice(0, 3) + '***'; 
+				icon.classList.remove("fa-clock");
+				icon.classList.add("fa-eye");
+
+				
+				// Enable the button immediately
+				hidePinBtn.disabled = false;
+				hidePinBtn.classList.remove("disabled");
+				pinGenBtn.disabled = false; 
+				pinGenBtn.classList.remove("disabled");
+			}
+		}
+	}
+
 	
 	
 	//Bay scripts 
@@ -1899,33 +2054,33 @@ window.onload = function() {
 		dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
 	}
 	
-	function copyPin()
+	function copyPin() 
 	{
-		// Get the input element
-		const pinInput = document.getElementById("pinInput");
-		
-		// Select the text in the input field
-		pinInput.select();
-		pinInput.setSelectionRange(0, 99999); // For mobile devices
-		
-		//change icon
+		// Get the hidden input element
+		const pinInput = document.getElementById("actualPin");
+
+		// Get the value of the hidden input
+		const pinValue = pinInput.value;
+
+		// Change the button icon to a check mark
 		const button = document.getElementById("copyButton4");
 		button.innerHTML = '<i class="fas fa-check icon"></i>'; // Change icon to check mark
 
-		// Reset the button icon after 3 seconds
+		// Reset the button icon after 1.5 seconds
 		setTimeout(() => {
 			button.innerHTML = '<i class="fas fa-copy icon"></i>'; // Reset to copy icon
-			}, 1500);
+		}, 1500);
 
-		// Copy the selected text to the clipboard
-		navigator.clipboard.writeText(pinInput.value)
+		// Use the Clipboard API to copy the value directly
+		navigator.clipboard.writeText(pinValue)
 			.then(() => {
-				
+				console.log('PIN copied to clipboard!');
 			})
 			.catch(err => {
 				console.error("Error copying text: ", err);
 			});
 	}
+
 	
 	document.addEventListener("DOMContentLoaded", () => {
     checkLocation(); // Initial check
