@@ -1,0 +1,14 @@
+1. extend width of location drop down box
+2. fix top and bottom spacing on all box's in widescreen mode
+3. remove Brand new Device and return old device buttons, change output text to incorporate changes
+4. remove name options button
+5. "Bay email" text field changes to "email" when "see techbar staff" is selected.
+6. change "assigned locker" to "PC Locker"
+7. change "see techbar staff" to "see staff"
+8. fix right side spacing on mini window
+9. make ritm button unclickable when ritm button is clicked and temporary red highlight is shown (occurs when ritm box is empty)
+10. fix right side spacing for forms table
+11. add copy button column to forms column
+12. make text in name column of forms table moving, to see all text.
+13. remove name row from froms table
+14. change ritm output date from e.g 4/12/2025 to 4/12/25
