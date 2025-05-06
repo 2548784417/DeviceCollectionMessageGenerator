@@ -1,10 +1,10 @@
 1. remove opening hours field and related logic
 2. PIN is not being removed from PIN output field when clear all is pressed
 3. remove "double check output" when in forms tab
-4. remove name options button
+4. 
 5. "Bay email" text field changes to "email" when "see techbar staff" is selected.
 6. last link validity check (date) in forms tab
-7. fix location of bay number 
+7. 
 8. 
 9. make ritm button and rest btn unclickable when ritm button is clicked and temporary red highlight is shown (occurs when ritm box is empty)
 10. fix right side spacing for forms table
@@ -14,4 +14,4 @@
 14. change ritm output date from e.g 4/12/2025 to 4/12/25
 15. return loan only output field?
 16. 
-17. When bay number is selected, auto generate PIN.
+17. 
