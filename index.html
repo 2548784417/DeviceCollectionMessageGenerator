@@ -18,7 +18,11 @@
 			color: #ffffff; /* Light text color for formatted text */
 		}
 
-        
+        #lockerBox, #staffBox {
+			padding-top: 10px;
+			padding-bottom: 10px;
+		}
+
 		label {
 			color: #ffffff; /* Light color for labels */
 			margin-right: 10px; /* Space between label and input */
@@ -38,9 +42,8 @@
         /* Style for the borders */
 			.border-container {
 			border: 1px solid #444; /* Border around checkbox section */
-			padding: 10px; /* Padding inside checkbox section */
-			margin-bottom: 5px; /* Space below checkbox section */
-			margin-top: 5px;
+			margin-bottom: 10px; /* Space below checkbox section */
+			margin-top: 10px;
 			border-radius: 4px; /* Rounded corners for containers */
 			display: block; /* Change to block display */
 			width: 100%;
@@ -106,24 +109,12 @@
 			display: flex; /* Use flexbox for layout */
 			flex-wrap: wrap; /* Allow wrapping */
 			gap: 2px; /* Space between checkboxes */
-			margin: px 0; /* Space above and below the checkbox section */
-			padding: 0px 0; /* Optional: add padding for additional spacing */
 			align-items: center;
 			
 			
 		}
 		
-		.sub-box-mini {
-		background-color: #1e1e1e; /* Background color for the inner box */
-		border: 1px solid #444; /* Border around the inner box */
-		border-radius: 4px; /* Rounded corners */
-		padding: 10px 5px; /* Padding inside the box */
-		margin: 0 5px; /* Margin to create space between sub-boxes */
-		display: flex; /* Use flexbox for layout */
-		align-items: center; /* Center items vertically */
-		flex: 1;
-		height: 15px;
-		}
+		
 		
 		
 		.sub-box-short {
@@ -422,10 +413,10 @@
 			border-radius: 4px; /* Match border-radius of the container */
 		}
 		
-		#locationLabel{
+		<!-- #locationLabel{
 		width:255px;
 		padding: 0;
-		}
+		} -->
 		
 		#locationSelect {
 			font-size: 15.5px; /* Adjust the size as needed */
@@ -511,9 +502,8 @@ a:hover {
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 
+<title>Techbar Template Generator</title>
 
-<!-- Tab title -->
-<title>Compnow Template Generator</title>
 
 <!-- Favicon -->
 
@@ -523,14 +513,13 @@ a:hover {
 
 </head>
 <!-- Main title -->
-    <h1 id = "maintitle">CompNow/RMIT Melbourne - Template Generator
+    <h1 id = "maintitle">RMIT Techbar Melbourne - Template Generator
 
 	</h1>
 	
 	
 <body>
-<!-- Warning message -->
-<p class ="alert"> Double check output, you are responsible for the final email</p>
+
 
 <!-- Tabbed Menu - will auto resize to fit width by % -->
 <div class="tab">
@@ -540,19 +529,21 @@ a:hover {
   <!-- add additional tabs here -->
 </div>
 
-
+<!-- Warning message -->
+<br>
+<p class ="alert"> Double check output, you are responsible for the final email</p>
 <!-- collection form start -->
 <div id="deviceCollection" class="tabcontent">
-<br>
+
 
 <!-- location + locker or techbar box -->
 <div class="border-container" id = "firstRow">
     <div class="checkbox-container">
 		<!-- location box -->
 		<div id = "locationBox" class= "sub-box-short"> 
-		<label id= "locationLabel">Techbar</label>
+<!-- 		<label id= "locationLabel">Techbar</label> -->
         <select id="locationSelect" onchange = "checkLocation()">
-            <option value="" disabled selected>Location</option>
+            <option value="" disabled selected>Techbar Location</option>
             <option value="80">80 - City</option>
             <option value="106">106 - City</option>
             <option value="94">94 - City</option>
@@ -568,7 +559,7 @@ a:hover {
 		<!-- locker or techbar radios -->
         <label id = "lockerLabel">
             <input type="radio" id="locker" name="techbarOption" value="Device in Locker" onchange="updateLocation()">
-            Assigned Locker
+            PC Locker
         </label>
 		</div>
 		
@@ -578,7 +569,7 @@ a:hover {
 		<div id = "staffBox" class= "sub-box-short"> 
         <label>
             <input type="radio" id="staff" name="techbarOption" value="See Techbar Staff" onchange="updateLocation()">
-            See Techbar Staff
+            Storeroom
         </label>
 		</div>
 	</div>
@@ -589,26 +580,29 @@ a:hover {
     <div class="border-container" id = "secondRow">
         <div class="checkbox-container">
           
-			<div id="brandNewBox" class= "sub-box-short">
-            <input type="checkbox" id="brandnew" name="brandnew" value="Brand new device" onclick = "updateOutput()">		
-			Brand new Device
-			</div>
 			
-			<!-- Vertical line -->
-			<div class="vertical-line1"></div> 
 			
-			<div id = "returnBox" class= "sub-box-short">
+			
+			
+			<!-- <div id = "returnBox" class= "sub-box-short">
 			<input type="checkbox" id="return" name="return" value="Return Device?">
 			Return old device
-			</div>
+			</div> -->
 			
-			<!-- Vertical line -->
-			<div class="vertical-line1"></div> 
             
 			<div id = "accessoryBox"class= "sub-box-short">
             <input type="checkbox" id="accessory" name="accessory" value="Accessory Only" onclick  = "updateOutput()">
             Accessory
 			</div>
+			
+			<!-- Vertical line -->
+			<div class="vertical-line1"></div> 
+			
+			<div id="followUpBox" class= "sub-box-short">
+            <input type="checkbox" id="followup" name="followup"  onclick = "updateOutput(); resetBay(); disableBayandPin()";>		
+			Follow up
+			</div>
+			
 			<button type="button" id="collapseBtn" class="button-float-right" onclick = "collapse()" >
 			<i class="fa-solid fa-down-left-and-up-right-to-center" title= "Collapse"></i>
 			</button>
@@ -638,8 +632,8 @@ a:hover {
             <!-- Bay  -->
             <!-- <input type="text" id="bayInput" placeholder="Bay number" oninput="updateOutput()" maxlength="2" /> -->
 			<!-- <label for="bayInput" id = "bayLabel">Bay Number:</label> -->
-			<select id="bayInput" onchange="updateOutput()">
-				<option value="" disabled selected>Select Bay Number</option>
+			<select id="bayInput" onchange="updateOutput(); genFillPin();">
+				<option value="" disabled selected>Bay Number</option>
 				<option value="1">Bay 1</option>
 				<option value="2">Bay 2</option>
 				<option value="3">Bay 3</option>
@@ -767,9 +761,9 @@ a:hover {
 		</div>
 
 		<!-- Output Field for Device collection text -->
-		<div id="outputCollection" class="formatted-text" style="width: 100%; height: 315px; border: 1px solid #444; padding: 10px; overflow-y: auto;" contenteditable="false"></div>
+		<div id="outputCollection" class="formatted-text" style="width: 100%; height: 220px; border: 1px solid #444; padding: 10px; overflow-y: auto;" contenteditable="false"></div>
 		
-		<br>
+		
 		
 		<div id = "pinOutputFields">
 			<div class="border-container">
@@ -786,7 +780,7 @@ a:hover {
 			</div>
 		</div>
 		<!-- Output Field for Pin email text -->
-		<div id="outputPIN" class="formatted-text" style="width: 100%; height: 280px; border: 1px solid #444; padding: 10px; overflow-y: auto;" contenteditable="false"></div>
+		<div id="outputPIN" class="formatted-text" style="width: 100%; height: 420px; border: 1px solid #444; padding: 10px; overflow-y: auto;" contenteditable="false"></div>
 		
 </div>
 <!-- collection form end -->
@@ -957,8 +951,8 @@ window.onload = function() {
     const hiddenRow = document.getElementById("hiddenRow");
     if (hiddenRow) hiddenRow.style.display = "none";
 
-    document.getElementById("brandnew").checked = true; // Automatically select "Brand new device"
-    document.getElementById("return").checked = true; // Automatically select "Return Device"
+    document.getElementById("followup").checked = false;
+    //document.getElementById("return").checked = true; // Automatically select "Return Device"
     document.getElementById("locker").checked = true;
 
     // Add event listeners
@@ -1032,9 +1026,9 @@ window.onload = function() {
 		const thirdRow = document.getElementById('thirdRow'); 
 		const verticalLines = document.querySelectorAll('.vertical-line1');
 		const checkboxContainer = document.querySelector('.checkbox-container');
-		const localLabel = document.getElementById('locationLabel');
+		//const localLabel = document.getElementById('locationLabel');
 		const localDropbox= document.getElementById('locationSelect');
-		const bayInput = document.getElementById('bayInput');
+		
 		const collapseBtn = document.getElementById('collapseBtn');
 		const lockerLabel = document.getElementById('lockerLabel');
 		const borderContainer = document.querySelector('.border-container');
@@ -1062,8 +1056,6 @@ window.onload = function() {
 						thirdRow.style.height = '20%';
 						
 						document.body.style.padding = '1px';
-						//pinOutputFields.style.display = 'block';
-						//miniPinOutputFields.style.display = 'block';
 						outputCollection.style.display = 'none';
 						outputPinField.style.display = 'none';
 						
@@ -1087,15 +1079,16 @@ window.onload = function() {
 						{
 							checkboxContainer.style.flexDirection = 'column'; // Stack checkboxes vertically
 							checkboxContainer.style.alignItems = 'flex-start'; // Align checkboxes to the left (or center)
-							//checkboxContainer.style.width = '100%';
+							
+							
 						});
 						
 						// Resize and stack all sub-box-short containers vertically
 						const subBoxShortContainers = document.querySelectorAll('.sub-box-short');
 						subBoxShortContainers.forEach(function(subBoxShortContainer) {
-							//subBoxShortContainer.style.flexDirection = 'column'; // Stack elements vertically
-							subBoxShortContainer.style.alignItems = 'flex-start'; // Align items to the left (or center)
-							subBoxShortContainer.style.width = '100%'; // Set width to 100%
+							subBoxShortContainer.style.alignItems = 'center'; // Align items to the left (or center)
+							subBoxShortContainer.style.width = '96%'; // Set width
+							
 						});
 						
 						// Change padding for all border containers
@@ -1115,11 +1108,11 @@ window.onload = function() {
 						
 						
 						//location box
-						localLabel.style.display = "none";
-						localDropbox.style.width = '100px';
+						//localLabel.style.display = "none";
+						//localDropbox.style.width = '95%';
 						
 						//bay box
-						bayInput.style.width = '90%';
+						bayInput.style.width = '95%';
 						collapseBtn.style.display = 'none';
 						bayInput.options[0].textContent = 'Bay #'; // Change text for the first option
 		
@@ -1127,12 +1120,12 @@ window.onload = function() {
 					
 				else //if halfscreen
 					{
-						titleElement.textContent = "Device Collection Template Generator"; 
+						titleElement.textContent = "RMIT Techbar Template Generator"; 
 						titleElement.style.fontSize = '32px';
 						alertElement.style.fontSize = '16px';
-						firstRow.style.height = '30px';
-						secondRow.style.height = '30px';
-						thirdRow.style.height = '30px';
+						firstRow.style.height = '20%';
+						secondRow.style.height = '20%';
+						thirdRow.style.height = '20%';
 						
 						outputCollection.style.display = 'block';
 						outputPinField.style.display = 'block';
@@ -1144,7 +1137,8 @@ window.onload = function() {
 						
 						
 						//location box
-						localLabel.style.display = "block";
+						//localLabel.style.display = "block";
+						//localLabel.style.paddingRight = "0px";
 						localDropbox.style.width = '100%';
 						
 						 // Reset checkboxes to horizontal layout
@@ -1161,14 +1155,10 @@ window.onload = function() {
 						// Resize and stack all sub-box-short containers vertically
 						const subBoxShortContainers = document.querySelectorAll('.sub-box-short');
 						subBoxShortContainers.forEach(function(subBoxShortContainer) {
-							subBoxShortContainer.style.width = '20%'; // Set width to 100%
+							subBoxShortContainer.style.width = '20%'; // Set width
 						});
 						
-						// Change padding for all border containers back to default
-						const borderContainers = document.querySelectorAll('.border-container');
-						borderContainers.forEach(function(borderContainer) {
-							borderContainer.style.padding = '10px'; // Default padding for larger screens
-						});
+						
 						
 						//Text
 						bayInput.options[0].textContent = 'Select Bay Number'; // Change text for the first option
@@ -1181,12 +1171,15 @@ window.onload = function() {
 			} 
 		else if (width >= 885)//if fullscreen or normal
 			{
-				titleElement.textContent = "RMIT/Compnow Device Collection Template Generator"; 
-				firstRow.style.height = '30px';
-				secondRow.style.height = '30px';
-				thirdRow.style.height = '30px';
-
+				titleElement.textContent = "RMIT Techbar Template Generator"; 
 				
+
+				// Change padding for all border containers back to default
+						const borderContainers = document.querySelectorAll('.border-container');
+						borderContainers.forEach(function(borderContainer) {
+							borderContainer.style.paddingTop = '5px'; // Default padding for larger screens
+							borderContainer.style.paddingBottom = '5px'; // Default padding for larger screens
+						});
 			}
 		
 	}
@@ -1196,9 +1189,13 @@ window.onload = function() {
 		const div = document.getElementById(divId);
 		const button = document.getElementById(buttonId);
 		
+		if (followUpBtn.checked)
+		{
+				
+		}
 		
 			// Check the value of bayInput, lockerBtn status, and the button ID
-		if (bayInput.value === "" && lockerBtn.checked && button.id === "copyButton1") {
+		if (!followUpBtn.checked && bayInput.value === "" && lockerBtn.checked && button.id === "copyButton1") {
 			// Change the button icon when conditions are met
 			button.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>'; // Change icon
 			
@@ -1266,11 +1263,13 @@ window.onload = function() {
 		}
 	}
 	
+	
+	
 
 //END GENERIC SCRIPTS
 	
 //COLLECTION SCRIPTS	
-	const returnCheckbox = document.getElementById("return");
+	//const returnCheckbox = document.getElementById("return");
 	const accessoryCheckbox = document.getElementById("accessory");
 	const locationBox = document.getElementById('locationBox');
 	
@@ -1280,11 +1279,12 @@ window.onload = function() {
 	const staffBtn = document.getElementById('staff');
 	const staffBox = document.getElementById('staffBox');
 		
-	const brandNewBtn = document.getElementById('brandnew');
-	const brandNewBox = document.getElementById('brandNewBox');
+	const followUpBtn = document.getElementById('followup');
+	const followUpBox = document.getElementById('followUpBox');
 		
-	const returnBtn = document.getElementById('return');
-	const returnBox = document.getElementById('returnBox');
+	const bayInput = document.getElementById('bayInput');
+	//const returnBtn = document.getElementById('return');
+	//const returnBox = document.getElementById('returnBox');
 	const bayBox = document.getElementById('bayBox');
 	const pinBox = document.getElementById('pinBox');
 	const ritmBox = document.getElementById('ritmBox');
@@ -1293,7 +1293,7 @@ window.onload = function() {
 	const accessoryBox = document.getElementById('accessoryBox');
 	
 	
-	const openingHoursBox = document.getElementById('openingHoursBox');
+	//const openingHoursBox = document.getElementById('openingHoursBox');
 	const firstRow = document.getElementById('firstRow');
 	const secondRow = document.getElementById('secondRow');
 	const thirdRow = document.getElementById('thirdRow');
@@ -1324,15 +1324,15 @@ window.onload = function() {
 	
 	
 	
-    var firstLine =  `Your new computer is now ready to collect from RMIT Techbar @`;
+    var firstLine =  `Your computer is now ready to collect from RMIT Techbar @`;
 	var secondLine = `\n\nYour device has been assigned to a PC Locker tower, you will receive a separate email from RMIT Device Collection with a Pin number. \n\nYour Bay number is: `;
 	var thirdLine =  `\n\nYou will be required to collect your device during university operation hours within 5 business days.`;
 	var fourthLine = ``;
-	var finalLine = `\n\nIf you require any assistance with setting up your new device, please approach our staff at the Techbar who are available to help. \n\nIf you have any additional questions or queries, please don’t hesitate to contact us via rmit.coordinators@compnow.com.au or on 9925 5247.`;
+	var finalLine = `\n\nIf you require any assistance with setting up your new device, please approach our staff at the Techbar who are available to help.`;
 
 	function allButtonsUsable(enable)
 	{	
-		const elements = [collapseBtn,copyCollectionBtn,emailPINBtn,copyPinBtn,clearAllBtn,copyBayOutput,nameSettings, ritmInput,nameInput,pinGenBtn,pinInput,bayInput,lockerBtn,lockerBox,staffBtn,staffBox,brandNewBtn,brandNewBox,returnBtn,returnBox,accessoryBtn,accessoryBox];
+		const elements = [collapseBtn,copyCollectionBtn,emailPINBtn,copyPinBtn,clearAllBtn,copyBayOutput,nameSettings, ritmInput,nameInput,pinGenBtn,pinInput,bayInput,lockerBtn,lockerBox,staffBtn,staffBox,followUpBtn,followUpBox,accessoryBtn,accessoryBox];
 
 		elements.forEach(element => {
 			element.disabled = !enable; // Set disabled based on the enable parameter
@@ -1341,9 +1341,8 @@ window.onload = function() {
 				element.classList.remove("disabled"); // Remove disabled class when enabling
 				element.title = ""; // Clear tooltip message when enabled
 				locationBox.style.borderColor = "green"; //location box green
-				brandNewBox.style.borderColor = "green"; // Change box border color
 				lockerBox.style.borderColor = "green"; // Change box border color
-				returnBox.style.borderColor = "green"; // Change box border color
+				//returnBox.style.borderColor = "green"; // Change box border color
 			} 
 			else 
 			{
@@ -1578,26 +1577,21 @@ window.onload = function() {
 				}
 			}
 			 
-			 // Update firstLine based on whether accessoryBtn or brandNewBtn is checked
-			if (accessoryBtn.checked) 
-			{
-				firstLine = `Your accessory is now ready to collect from RMIT Techbar @`;
-			}
-			else if (brandNewBtn.checked) 
-			{
-				firstLine = `Your new computer is now ready to collect from RMIT Techbar @`;
-			}
+			 // Update firstLine based on whether accessoryBtn or followUpBtn is checked
 			
-			// Update firstLine based on whether accessoryBtn or brandNewBtn is checked
-			if (returnBtn.checked) 
-			{
-				fourthLine = `\n\nIf you have an old computer, you will need to return it with the charger, please place it in the same locker bay as your new device, or hand it to the Techbar staff upon collection.`;
-			}
-			// Update firstLine based on whether accessoryBtn or brandNewBtn is checked
-			if (!returnBtn.checked) 
-			{
-				fourthLine = ``;
-			}
+			
+			
+			
+			// Update firstLine based on whether accessoryBtn or followUpBtn is checked
+			<!-- if (returnBtn.checked)  -->
+			<!-- { -->
+				<!-- fourthLine = `\n\nIf you have an old computer, you will need to return it with the charger, please place it in the same locker bay as your new device, or hand it to the Techbar staff upon collection.`; -->
+			<!-- } -->
+			<!-- // Update firstLine based on whether accessoryBtn or followUpBtn is checked -->
+			<!-- if (!returnBtn.checked)  -->
+			<!-- { -->
+				<!-- fourthLine = ``; -->
+			<!-- } -->
 			
 			if (staffBtn.checked)
 			{
@@ -1760,6 +1754,64 @@ window.onload = function() {
 		document.getElementById('bayInput').value = "";
 	}
 	
+	function disableBayandPin()
+	{
+	    if (followUpBtn.checked)
+		{
+			resetPin();
+	
+			bayInput.disabled=true;
+			bayInput.classList.add("disabled");
+			
+			pinGenBtn.disabled = true;
+			pinGenBtn.classList.add("disabled");
+			
+			hidePinBtn.disabled = true;
+			hidePinBtn.classList.add("disabled");
+			
+			ritmBox.disabled = true;
+			ritmBox.classList.add("disabled");
+			ritmInput.disabled = true;
+			ritmInput.classList.add("disabled");
+			
+			copyBayOutput.disabled=true;
+			copyBayOutput.classList.add("disabled");
+			
+			copyButton4.disabled=true;
+			copyButton4.classList.add("disabled");
+			
+			pinInput.disabled=true;
+			pinInput.classList.add("disabled");
+			
+		}
+		else
+		{
+			
+				bayInput.disabled = false;
+				bayInput.classList.remove("disabled");
+
+				pinGenBtn.disabled = false;
+				pinGenBtn.classList.remove("disabled");
+
+				ritmBox.disabled = false;
+				ritmBox.classList.remove("disabled");
+				ritmInput.disabled = false;
+				ritmInput.classList.remove("disabled");
+
+				copyBayOutput.disabled = false;
+				copyBayOutput.classList.remove("disabled");
+				
+				copyButton4.disabled=false;
+				copyButton4.classList.remove("disabled");
+				
+				pinInput.disabled=false;
+				pinInput.classList.remove("disabled");	
+
+
+		}
+		
+	}
+	
 	function resetName()
 	{
 		document.getElementById('nameInput').value = "";
@@ -1772,17 +1824,11 @@ window.onload = function() {
 	}
 	//LISTNERS
 	
-	brandNewBtn.addEventListener("change", brandNewBtnChange);
-	returnBtn.addEventListener("change", returnBtnChange);
+	followUpBtn.addEventListener("change", followUpBtnChange);
+	//returnBtn.addEventListener("change", returnBtnChange);
 	accessoryBtn.addEventListener("change", accessoryBtnChange);
 	lockerBtn.addEventListener("change", lockerBtnChange);
 	staffBtn.addEventListener("change", staffBtnChange);
-	
-	
-	
-	
-	
-	
 	
 	
 	function pinBayFields(enable)
@@ -1805,37 +1851,53 @@ window.onload = function() {
 	}
 	
 
-	function brandNewBtnChange() {
-    // Only execute if brandNewBtn is not disabled
-    if (!brandNewBtn.disabled) {
-        if (brandNewBtn.checked) {
-            brandNewBox.style.borderColor = "green"; // Change box border color
-            firstLine = `Your new computer is now ready to collect from RMIT Techbar @`;
-        } else {
-            brandNewBox.style.borderColor = ""; // Reset box border color
+	function followUpBtnChange() {
+    // Only execute if followUpBtn is not disabled
+    if (!followUpBtn.disabled) {
+        if (followUpBtn.checked) {
+            followUpBox.style.borderColor = "green"; // Change box border color
+            firstLine = `Just a friendly reminder that your device is now ready to collect from RMIT Techbar @`;
+			secondLine = `\n\nYour device has been assigned to our PC locker tower. \n\nPlease refer to previous emails to access your PIN and Bay number, or speak to Techbar staff for assistance.`;
+			thirdLine = ``;
+			fourthLine = ``;
+			
+			accessoryBtn.disabled = true;
+			accessoryBtn.classList.add("disabled");
+			accessoryBtn.checked = false;
+			accessoryBox.style.borderColor = ""; // Reset accessory box border color
+			
+		
+        } 
+		
+		else {
+            followUpBox.style.borderColor = ""; // Reset box border color
             firstLine = `Your computer is now ready to collect from RMIT Techbar @`;
-        }
+			secondLine = `\n\nYour device has been assigned to a PC Locker tower, you will receive a separate email from RMIT Device Collection with a Pin number. \n\nYour Bay number is: `;
+			thirdLine = `\n\nYou will be required to collect your device during university operation hours within 5 business days.`;
+			accessoryBtn.disabled = false;
+			accessoryBtn.classList.remove("disabled");
+		}
 
         // Update the output field
         updateOutput();
 		}
 	}
 	
-	function returnBtnChange() {
-    // Only execute if brandNewBtn is not disabled
-    if (!returnBtn.disabled) {
-        if (returnBtn.checked) {
-           returnBox.style.borderColor = "green"; // Change box border color
+	<!-- function returnBtnChange() { -->
+    <!-- // Only execute if followUpBtn is not disabled -->
+    <!-- if (!returnBtn.disabled) { -->
+        <!-- if (returnBtn.checked) { -->
+           <!-- //returnBox.style.borderColor = "green"; // Change box border color -->
             
-        } else {
-            returnBox.style.borderColor = ""; // Reset border color
+        <!-- } else { -->
+            <!-- //returnBox.style.borderColor = ""; // Reset border color -->
             
-        }
+        <!-- } -->
 
-        // Update the output field
-        updateOutput();
-		}
-	}
+        <!-- // Update the output field -->
+        <!-- updateOutput(); -->
+		<!-- } -->
+	<!-- } -->
 	
 		
 	
@@ -1858,7 +1920,17 @@ window.onload = function() {
 			thirdRow.style.display = "block";
 			pinOutputFields.style.display = "block";
 			
-			secondLine = `\n\nYour device has been assigned to a PC Locker tower, you will receive a separate email from RMIT Device Collection with a Pin number. \n\nYour Bay number is: `;
+			if (followUpBtn.checked)	
+			{
+				followUpBtnChange();
+				disableBayandPin();
+			}
+			
+			else
+			{
+				secondLine = `\n\nYour device has been assigned to a PC Locker tower, you will receive a separate email from RMIT Device Collection with a Pin number. \n\nYour Bay number is: `;
+			}
+			
 			updateOutput();
 			
 			
@@ -1874,48 +1946,50 @@ window.onload = function() {
 	{
 		if (accessoryBtn.checked)
 		{
-			firstLine = `Your accessory is now ready to collect from RMIT Techbar @`;
+			if (followUpBtn.checked)
+			{
+				firstLine = `Just a friendly reminder that your device is now ready to collect from RMIT Techbar @`;
+				
+			}
+			
+			else
+			{
+				firstLine = `Your accessory is now ready to collect from RMIT Techbar @`;
+			}
+			
 
 			// Disable return and brand new buttons when accessory is checked
-			returnCheckbox.checked = false; 
-			returnCheckbox.disabled = true; 
-			returnBox.disabled = true;
-			returnBox.classList.add("disabled");
-			returnBox.title = "Uncheck accessory";
+			//returnCheckbox.checked = false; 
+			//returnCheckbox.disabled = true; 
+			//returnBox.disabled = true;
+			//returnBox.classList.add("disabled");
+			//returnBox.title = "Uncheck accessory";
 
 			accessoryBox.style.borderColor = "green"; // Change accessory box border color
-			returnBox.style.borderColor = ""; // Reset return box border color
+			//returnBox.style.borderColor = ""; // Reset return box border color
 
-			// Disable brand new button and box
-			brandNewBtn.disabled = true;
-			brandNewBtn.checked = false;
-			brandNewBox.disabled = true;
-			brandNewBox.classList.add("disabled");
-			brandNewBox.style.borderColor = ""; // Reset brand new box border color
+			
+			
 		} 
 		
 		else 
 		{
-			firstLine = `Your new computer is now ready to collect from RMIT Techbar @`;
+			firstLine = `Your computer is now ready to collect from RMIT Techbar @`;
 
 			// Enable return and brand new buttons when accessory is unchecked
-			returnCheckbox.disabled = false;
-			returnCheckbox.checked = true;
-			returnCheckbox.classList.remove("disabled");
-			returnBox.classList.remove("disabled");
-			returnBox.style.borderColor = "Green";
+			<!-- returnCheckbox.disabled = false; -->
+			<!-- returnCheckbox.checked = true; -->
+			<!-- returnCheckbox.classList.remove("disabled"); -->
+			<!-- returnBox.classList.remove("disabled"); -->
+			<!-- returnBox.style.borderColor = "Green"; -->
 
 			accessoryBox.style.borderColor = ""; // Reset accessory box border color
 
 			// Enable brand new button and box
-			brandNewBtn.disabled = false;
-			brandNewBtn.checked = true;
-			brandNewBox.classList.remove("disabled");
-			brandNewBox.disabled = false;
-			brandNewBox.style.borderColor = "green"; // Update brand new box border color
+			
 
-			// Manually trigger brandNewBtnChange to update the output immediately
-			brandNewBtnChange();
+			// Manually trigger followUpBtnChange to update the output immediately
+			followUpBtnChange();
 		}
 
 		
@@ -2006,19 +2080,7 @@ window.onload = function() {
 		}
 	}
 	
-	function emailCollection()
-	{
-		const collectionOutput = document.getElementById('outputCollection').textContent;
-		const subject = ``;
-		const body = `${name || ''}\n\n${collectionOutput}\n\n`;
-
-		// Create the mailto link
-		const mailtoLink = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-		
-		// Open the default email client
-		window.location.href = mailtoLink;
 	
-	}
 	
 
 
