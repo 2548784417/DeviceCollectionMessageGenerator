@@ -4,7 +4,7 @@
 4. remove name options button
 5. "Bay email" text field changes to "email" when "see techbar staff" is selected.
 6. last link validity check (date) in forms tab
-7.
+7. fix location of bay number 
 8. 
 9. make ritm button and rest btn unclickable when ritm button is clicked and temporary red highlight is shown (occurs when ritm box is empty)
 10. fix right side spacing for forms table
