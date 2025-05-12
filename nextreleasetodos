@@ -1,7 +1,7 @@
 1. remove opening hours field and related logic
 2. PIN is not being removed from PIN output field when clear all is pressed
 3. remove "double check output" when in forms tab
-4. 
+4. change left:0; /* change name to right */ in .dropdown-content { CSS to right:0; for that dropdown only
 5. "Bay email" text field changes to "email" when "see techbar staff" is selected.
 6. last link validity check (date) in forms tab
 7. hide bay/pin/name box when follow up is checked
