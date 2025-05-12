@@ -4,8 +4,8 @@
 4. 
 5. "Bay email" text field changes to "email" when "see techbar staff" is selected.
 6. last link validity check (date) in forms tab
-7. 
-8. 
+7. hide bay/pin/name box when follow up is checked
+8. replace with "collection", "decom" and "loan" buttons
 9. make ritm button and rest btn unclickable when ritm button is clicked and temporary red highlight is shown (occurs when ritm box is empty)
 10. fix right side spacing for forms table
 11. add copy button column to forms column
