@@ -1,6 +1,6 @@
 1. remove opening hours field and related logic
 2. PIN is not being removed from PIN output field when clear all is pressed
-3. 
+3. when storeroom>followup>collection>followup uncheck. third row and copy buttons remain invis.
 4. 
 5. 
 6. last link validity check (date) in forms tab
@@ -8,8 +8,8 @@
 8. 
 9. make ritm button and rest btn unclickable when ritm button is clicked and temporary red highlight is shown (occurs when ritm box is empty)
 10. 
-11. add copy button column to forms column
-12. make text in name column of forms table moving, to see all text.
+11. 
+12. 
 13. remove name row from froms table
 14. 
 15. 
