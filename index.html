@@ -37,7 +37,25 @@
             border-radius: 4px; /* Rounded corners for inputs */
         }
 		
+		/* Style email btn */
+			.email-label {
+			border: 1px solid #444; /* Border around checkbox section */
+			margin-bottom: 10px; /* Space below checkbox section */
+			margin-top: 10px;
+			border-radius: 4px; /* Rounded corners for containers */
+			display: flex;
+			align-items: center;
+			width: 100%;
+			
+		}
 		
+		
+
+		#copyButton1 {
+			
+			margin: 5px;
+		}
+
 
         /* Style for the borders */
 			.border-container {
@@ -115,7 +133,18 @@
 		}
 		
 		
-		
+		.sub-box-mini {
+		background-color: #1e1e1e; /* Background color for the inner box */
+		border: 1px solid #444; /* Border around the inner box */
+		border-radius: 4px; /* Rounded corners */
+		padding: 10px 5px; /* Padding inside the box */
+		margin: 0 5px; /* Margin to create space between sub-boxes */
+		display: flex; /* Use flexbox for layout */
+		align-items: center; /* Center items vertically */
+		width: 110px;
+		height: 10px;
+		display: none;
+		}
 		
 		.sub-box-short {
 		background-color: #1e1e1e; /* Background color for the inner box */
@@ -373,8 +402,10 @@
 			box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); /* Add shadow */
 			z-index: 1; /* Ensure it appears above other content */
 			top: 100%; /* Position directly below the button */
-			right: 0; /* Align to the left of the button */
+			right:0; /* change name to right */
 			}
+			
+			
 
 		.dropdown-content label {
 			display: flex; /* Aligns radio button and text horizontally */
@@ -489,6 +520,10 @@ a:hover {
 }
 		
 		
+.programmatic-only {
+  pointer-events: none; /* Prevent user clicks */
+}
+
 					
 	
 			
@@ -531,7 +566,7 @@ a:hover {
 
 <!-- Warning message -->
 <br>
-<p class ="alert"> Double check output, you are responsible for the final email</p>
+<p class ="alert"> Double check all outputs</p>
 <!-- collection form start -->
 <div id="deviceCollection" class="tabcontent">
 
@@ -599,8 +634,47 @@ a:hover {
 			<div class="vertical-line1"></div> 
 			
 			<div id="followUpBox" class= "sub-box-short">
-            <input type="checkbox" id="followup" name="followup"  onclick = "updateOutput(); resetBay(); disableBayandPin()";>		
+            <input type="checkbox" id="followup" name="followup" onclick = " resetBay(); disableBayandPin(); followUpOptions()";>		
 			Follow up
+			</div>
+			
+			
+			
+			<div id="followUpBoxCollection" class= "sub-box-mini">
+			 <label>
+				<input type="radio" id="followUpBtnCollection" name="followup" onclick = "followUpOptions();" onchange = "followUpBtnCollectionChange";>		
+				Collection
+			 <label>
+			</div>
+			
+			<div id="followUpBoxDecom" class= "sub-box-mini">
+			 <label>
+				<input type="radio" id="followUpBtnDecom" name="followup" onclick = "updateOutput(); followUpOptions()";>		
+				Decom
+			 <label>
+			</div>
+			
+			<div id="followUpBoxLoan" class= "sub-box-mini">
+			<label>
+				<input type="radio" id="followUpBtnLoan" name="followup"  onclick = "updateOutput(); followUpOptions()";>		
+				Loan
+			 <label>
+			</div>
+			
+			
+			<div style="position: relative; display: inline-block;">
+			<div id="followUpDropdown" style="display: none;" class="dropdown-content">
+				<span ></span>
+				<label>
+					<input type="radio" name="typeOption" onclick="updateOutput()" > <span>Collection</span>
+				</label>
+				<label>
+					<input type="radio" name="typeOption" onclick="updateOutput()">  <span>Decom</span>
+				</label>
+				<label>
+					<input type="radio" name="typeOption" onclick="updateOutput()">  <span>Loan</span>
+				</label>
+			</div>
 			</div>
 			
 			<button type="button" id="collapseBtn" class="button-float-right" onclick = "collapse()" >
@@ -753,10 +827,10 @@ a:hover {
 
  <br>
 		<div id = "bayOutputFields">
-			<div class="border-container">
+			<div class="email-label">
 				<!-- copy -->
-				<p>Bay Email <button id="copyButton1" onclick="copyToClipboard('outputCollection', 'copyButton1')">
-				<i class="fas fa-copy icon"></i> </button></p>
+				<p id="bayEmailLabel">Bay Email</p><button id="copyButton1" onclick="copyToClipboard('outputCollection', 'copyButton1')">
+				<i class="fas fa-copy icon"></i> </button>
 			</div>
 		</div>
 
@@ -969,6 +1043,8 @@ window.onload = function() {
 
     // Manually trigger the resize event to apply layout based on current window size
     window.dispatchEvent(new Event('resize'));
+
+	  
 	
 	
 };
@@ -1024,7 +1100,7 @@ window.onload = function() {
 		const firstRow = document.getElementById('firstRow'); 
 		const secondRow = document.getElementById('secondRow'); 
 		const thirdRow = document.getElementById('thirdRow'); 
-		const verticalLines = document.querySelectorAll('.vertical-line1');
+		
 		const checkboxContainer = document.querySelector('.checkbox-container');
 		//const localLabel = document.getElementById('locationLabel');
 		const localDropbox= document.getElementById('locationSelect');
@@ -1037,6 +1113,7 @@ window.onload = function() {
 		const outputPinField = document.getElementById('outputPIN');
 		const outputCollection = document.getElementById('outputCollection');
 		const clearBtn = document.getElementById("clearAllBtn");
+		const dropDown = document.getElementById('followUpDropdown');
 		
 		
 		
@@ -1063,7 +1140,6 @@ window.onload = function() {
 						clearAllBtn.style.marginLeft = '0';   // Ensure no margin on the left side
 						clearAllBtn.style.float = 'none';     // Remove float
 						
-					
 						
 						
 						//remove lines
@@ -1073,14 +1149,14 @@ window.onload = function() {
 						});
 						
 						
+
 						// Resize and stack all checkbox containers vertically
 						const checkboxContainers = document.querySelectorAll('.checkbox-container');
 						checkboxContainers.forEach(function(checkboxContainer) 
 						{
 							checkboxContainer.style.flexDirection = 'column'; // Stack checkboxes vertically
 							checkboxContainer.style.alignItems = 'flex-start'; // Align checkboxes to the left (or center)
-							
-							
+				
 						});
 						
 						// Resize and stack all sub-box-short containers vertically
@@ -1167,6 +1243,7 @@ window.onload = function() {
 						
 						
 						
+						
 					}
 			} 
 		else if (width >= 885)//if fullscreen or normal
@@ -1183,6 +1260,9 @@ window.onload = function() {
 			}
 		
 	}
+	
+	
+
 	
 	function copyToClipboard(divId, buttonId)
 	{
@@ -1281,6 +1361,10 @@ window.onload = function() {
 		
 	const followUpBtn = document.getElementById('followup');
 	const followUpBox = document.getElementById('followUpBox');
+	
+	const followUpBtnCollection = document.getElementById('followUpBtnCollection');
+	const followUpBtnDecom = document.getElementById('followUpBtnDecom');
+	const followUpBtnLoan = document.getElementById('followUpBtnLoan');
 		
 	const bayInput = document.getElementById('bayInput');
 	//const returnBtn = document.getElementById('return');
@@ -1302,6 +1386,7 @@ window.onload = function() {
 	
 	const emailPINBtn = document.getElementById('emailPin');
 	const copyPinBtn = document.getElementById('copyButton2');
+	const bayEmailLabel = document.getElementById('bayEmailLabel');	
 	
 	const copyCollectionBtn = document.getElementById('copyButton1');
 
@@ -1319,16 +1404,16 @@ window.onload = function() {
 	const clearAllBtn = document.getElementById('clearAllBtn');
 	const collapseBtn = document.getElementById('collapseBtn');
 	
-	
-	
-	
-	
+
 	
     var firstLine =  `Your computer is now ready to collect from RMIT Techbar @`;
 	var secondLine = `\n\nYour device has been assigned to a PC Locker tower, you will receive a separate email from RMIT Device Collection with a Pin number. \n\nYour Bay number is: `;
 	var thirdLine =  `\n\nYou will be required to collect your device during university operation hours within 5 business days.`;
 	var fourthLine = ``;
 	var finalLine = `\n\nIf you require any assistance with setting up your new device, please approach our staff at the Techbar who are available to help.`;
+	const verticalLines = document.querySelectorAll('.vertical-line1');
+	
+
 
 	function allButtonsUsable(enable)
 	{	
@@ -1597,6 +1682,8 @@ window.onload = function() {
 			{
 				outputPIN = ``;
 			}
+			
+			
 
 			var outputCollection = document.getElementById('outputCollection');
 			
@@ -1822,10 +1909,13 @@ window.onload = function() {
 	{
 		document.getElementById('ritmInput').value = "";
 	}
-	//LISTNERS
 	
+	//LISTNERS
 	followUpBtn.addEventListener("change", followUpBtnChange);
-	//returnBtn.addEventListener("change", returnBtnChange);
+	followUpBtnCollection.addEventListener("change", followUpBtnCollectionChange);
+	followUpBtnDecom.addEventListener("change", followUpBtnDecomChange);
+	followUpBtnLoan.addEventListener("change", followUpBtnLoanChange);
+	
 	accessoryBtn.addEventListener("change", accessoryBtnChange);
 	lockerBtn.addEventListener("change", lockerBtnChange);
 	staffBtn.addEventListener("change", staffBtnChange);
@@ -1850,32 +1940,315 @@ window.onload = function() {
 		});
 	}
 	
+	function followUpBtnCollectionChange()
+	{
+		
+	
+	    if (followUpBtnCollection.checked)
+		{
+			const width = window.innerWidth;
+			const bayBtns = document.getElementById("bayOutputFields");
+			
+			if (width >800)
+			{	
+				bayBtns.style.display = "block";
+				outputCollection.style.display = 'block';
+			}
+			if (width <=800)
+			{
+				bayBtns.style.display = "block";
+				outputCollection.style.display = 'none';
+			}
 
+			followUpBoxCollection.style.borderColor = "green"; // Change box border color
+			followUpBoxDecom.style.borderColor = "";
+			followUpBoxLoan.style.borderColor = "";	
+			document.getElementById("bayEmailLabel").textContent = "Email";
+			
+			firstLine = `Just a friendly reminder that your device is now ready to collect from RMIT Techbar @`;
+			secondLine = `\n\nYour device has been assigned to our PC locker tower. \n\nPlease refer to previous emails to access your PIN and Bay number, or speak to Techbar staff for assistance.`;
+			finalLine = `\n\nIf you require any assistance with setting up your new device, please approach our staff at the Techbar who are available to help.`;
+			updateOutput();
+			
+			lockerBtn.style.display = "block";
+			lockerBox.style.display = "block";
+			staffBtn.style.display = "block";			
+			staffBox.style.display = "block";
+			
+			if (!staffBtn.checked && !lockerBtn.checked)
+			{
+				lockerBtn.checked = true;
+				lockerBox.style.borderColor = "green";
+				staffBtn.checked = false;
+				staffBtn.style.borderColor = "";
+			}
+			
+			
+			
+		}
+
+		
+		followUpBtnDecom.checked = false;
+		followUpBtnLoan.checked = false;
+		lockerBtn.disabled = false;
+		staffBtn.disabled = false;
+		
+		
+		
+	}
+	
+	function followUpBtnDecomChange()
+	{
+		followUpBtnCollection.checked = false;
+		followUpBtnLoan.checked = false;
+		
+		
+		
+		if (followUpBtnDecom.checked)
+		{
+		
+			const width = window.innerWidth;
+			const bayBtns = document.getElementById("bayOutputFields");
+			
+			if (width >800)
+			{	
+				bayBtns.style.display = "block";
+				outputCollection.style.display = 'block';
+			}
+			if (width <=800)
+			{
+				bayBtns.style.display = "block";
+				outputCollection.style.display = 'none';
+			}
+			
+			
+			
+			staffBtn.checked = false;
+			
+			document.getElementById("bayEmailLabel").textContent = "Email";
+			
+			staffBox.style.borderColor = ""; 
+			lockerBox.style.borderColor = ""; 
+			
+			followUpBoxCollection.style.borderColor = ""; // Change box border color
+			followUpBoxDecom.style.borderColor = "green";
+			followUpBoxLoan.style.borderColor = "";	
+			
+			firstLine = `Just a friendly reminder to please return your old device to the RMIT Techbar @`;
+			secondLine = '';
+			thirdLine = '';
+			fourthLine = '';
+			finalLine = '';
+			updateOutput();
+			
+			lockerBtn.style.display = "none";
+			staffBtn.style.display = "none";
+			lockerBox.style.display = "none";
+			staffBox.style.display = "none";
+			
+			//remove lines
+			verticalLines.forEach(function(line)
+						{
+							line.remove(); 
+						});
+			
+			
+		}
+		
+		
+		
+	}
+	
+	function followUpBtnLoanChange()
+	{
+		followUpBtnDecom.checked = false;
+		followUpBtnCollection.checked = false;
+		staffBtn.checked = false;
+
+	
+		
+		if (followUpBtnLoan.checked)
+		{
+			const width = window.innerWidth;
+			const bayBtns = document.getElementById("bayOutputFields");
+			
+			if (width >800)
+			{	
+				bayBtns.style.display = "block";
+				outputCollection.style.display = 'block';
+			}
+			if (width <=800)
+			{
+				bayBtns.style.display = "block";
+				outputCollection.style.display = 'none';
+			}
+			
+			followUpBoxCollection.style.borderColor = ""; // Change box border color
+			followUpBoxDecom.style.borderColor = "";
+			followUpBoxLoan.style.borderColor = "green";	
+			
+			document.getElementById("bayEmailLabel").textContent = "Email";
+			
+			lockerBtn.style.display = "none";
+			staffBtn.style.display = "none";
+			lockerBox.style.display = "none";
+			staffBox.style.display = "none";
+			
+			staffBox.style.borderColor = ""; 
+			lockerBox.style.borderColor = ""; 
+			
+			firstLine = `Just a friendly reminder to please return the loan device provided to the RMIT Techbar @`;
+			secondLine = '';
+			thirdLine = '';
+			fourthLine = '';
+			finalLine = '';
+			
+			updateOutput();
+			
+			//remove lines
+			verticalLines.forEach(function(line)
+						{
+							line.remove(); 
+						});
+						
+			}
+		
+	}
+	
 	function followUpBtnChange() {
+
+		const outputPinField = document.getElementById('outputPIN');
+		const pinOutputFields = document.getElementById('pinOutputFields');
+		
+		
+		
     // Only execute if followUpBtn is not disabled
     if (!followUpBtn.disabled) {
         if (followUpBtn.checked) {
-            followUpBox.style.borderColor = "green"; // Change box border color
-            firstLine = `Just a friendly reminder that your device is now ready to collect from RMIT Techbar @`;
+		
+            const bayBtns = document.getElementById("bayOutputFields");
+			bayBtns.style.display = "none";
+            firstLine = ``;
 			secondLine = `\n\nYour device has been assigned to our PC locker tower. \n\nPlease refer to previous emails to access your PIN and Bay number, or speak to Techbar staff for assistance.`;
 			thirdLine = ``;
 			fourthLine = ``;
 			
+			document.getElementById("bayEmailLabel").textContent = "Email";
+			
+			followUpBox.style.borderColor = "green"; // Reset box border color
 			accessoryBtn.disabled = true;
 			accessoryBtn.classList.add("disabled");
 			accessoryBtn.checked = false;
 			accessoryBox.style.borderColor = ""; // Reset accessory box border color
 			
+			//show loan, decom and collection buttons
+			followUpBoxCollection.style.display = 'flex'; 
+			followUpBoxDecom.style.display = 'flex';
+			followUpBoxLoan.style.display = 'flex';
+
+			//hide third row and PIN collection output and buttons
+			thirdRow.style.display = "none";
+			outputPinField.style.display = 'none';
+			pinOutputFields.style.display = 'none';
+			
+			lockerBtn.style.display = "block";
+			staffBtn.style.display = "block";
+			lockerBox.style.display = "block";
+			staffBox.style.display = "block";
+			
+			outputCollection.style.display = 'none';
 		
         } 
 		
-		else {
+		
+		
+		if (!followUpBtn.checked) {
+			
+			const width = window.innerWidth;
             followUpBox.style.borderColor = ""; // Reset box border color
             firstLine = `Your computer is now ready to collect from RMIT Techbar @`;
 			secondLine = `\n\nYour device has been assigned to a PC Locker tower, you will receive a separate email from RMIT Device Collection with a Pin number. \n\nYour Bay number is: `;
 			thirdLine = `\n\nYou will be required to collect your device during university operation hours within 5 business days.`;
+			
 			accessoryBtn.disabled = false;
 			accessoryBtn.classList.remove("disabled");
+			
+			document.getElementById("bayEmailLabel").textContent = "Bay Email";
+			
+			//hide loan, decom and collection buttons
+			followUpBoxCollection.style.display = 'none'; 
+			followUpBoxDecom.style.display = 'none';
+			followUpBoxLoan.style.display = 'none';
+			
+			//uncheck follow up options and reset borders
+			followUpBtnCollection.checked = false;
+			followUpBtnDecom.checked = false;
+			followUpBtnLoan.checked = false;
+			
+			followUpBoxCollection.style.borderColor = "";
+			followUpBoxDecom.style.borderColor = "";
+			followUpBoxLoan.style.borderColor = "";
+			
+			//lockerBtn.checked = true;
+			
+			
+			//show third row and PIN collection output and buttons
+			thirdRow.style.display = "block";
+			
+			lockerBtn.style.display = "block";
+			staffBtn.style.display = "block";
+			lockerBox.style.display = "block";
+			clearAllBtn.disabled= false;
+			clearAllBtn.classList.remove("disabled");
+			
+			staffBox.style.display = "block";
+			//outputCollection.style.display = 'block';
+			
+			if (!staffBtn.checked && !lockerBtn.checked)
+			{
+				lockerBtn.checked = true;
+				lockerBox.style.borderColor = "";
+			
+				
+			}
+			
+			
+			if (width>=800)
+			{
+					
+					pinOutputFields.style.display = 'block';
+					outputPinField.style.display = 'block';
+					outputCollection.style.display = 'block';
+					
+			}
+				
+			
+			if (staffBtn.checked)
+			{
+				const bayBtns = document.getElementById("bayOutputFields");
+				bayBtns.style.display = "block";
+				thirdRow.style.display = "none";
+				document.getElementById("bayEmailLabel").textContent = "Email";
+				pinOutputFields.style.display = 'none';
+				staffBtn.checked = false;
+				staffBox.style.borderColor = "";
+				lockerBtn.checked = true;
+				lockerBox.style.borderColor = "green";
+				
+				
+			}
+			
+			else
+			{
+				const bayBtns = document.getElementById("bayOutputFields");
+				bayBtns.style.display = "block";	
+				
+				pinOutputFields.style.display = 'block';
+				staffBtn.checked = false;
+				lockerBox.style.borderColor = "green";
+				
+			}
+			
 		}
 
         // Update the output field
@@ -1912,8 +2285,7 @@ window.onload = function() {
 			updateOutput();	
 			pinBayFields(true);
 			
-			// Re-enable elements when the checkbox is unchecked
-			staffBox.style.borderColor = ""; // Reset border color
+			document.getElementById("bayEmailLabel").textContent = "Bay Email";
 
 			document.getElementsByName('nameOption')[0].checked = true;
 	
@@ -1923,6 +2295,8 @@ window.onload = function() {
 			if (followUpBtn.checked)	
 			{
 				followUpBtnChange();
+				followUpBtnCollectionChange();
+				
 				disableBayandPin();
 			}
 			
@@ -1996,6 +2370,7 @@ window.onload = function() {
 		updateOutput();
 	}
 	
+	
 	function staffBtnChange()
 	{
 		var location = ``;
@@ -2018,6 +2393,9 @@ window.onload = function() {
 			pinBayFields(false); //disable PIN fields
 			resetBay(); //remove PIN from field
 
+
+			document.getElementById("bayEmailLabel").textContent = "Email";
+			
 			thirdRow.style.display = "none";
 			pinOutputFields.style.display = "none";
 			
@@ -2114,6 +2492,14 @@ window.onload = function() {
 	{
 		const dropdown = document.getElementById('nameDropdown');
 		dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+	}
+	
+	function followUpOptions() 
+	{
+	
+	
+		<!-- const dropdown = document.getElementById('followUpDropdown'); -->
+		<!-- dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block'; -->
 	}
 	
 	function copyPin() 
@@ -2239,8 +2625,13 @@ window.onload = function() {
 		const endUser = document.getElementById('nameInput').value;
 		var finalBayOutput = "";
 		const fiveBusinessDaysLater = addBusinessDays(new Date(), 5);
-		const formattedDate = fiveBusinessDaysLater.toLocaleDateString();
+		const formattedDate = fiveBusinessDaysLater.toLocaleDateString('en-GB', {
+		  day: '2-digit',     // Ensure the day is two digits
+		  month: '2-digit',   // Ensure the month is two digits
+		  year: '2-digit'     // Ensure the year is two digits
+		});
 		const button = document.getElementById("copyBayOutput");
+
 
 		//add 5 business days to field
 		function addBusinessDays(startDate, days) 
