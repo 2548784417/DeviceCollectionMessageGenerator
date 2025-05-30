@@ -1,7 +1,7 @@
 1. remove opening hours field and related logic
 2. PIN is not being removed from PIN output field when clear all is pressed
 3. when storeroom>followup>collection>followup uncheck. third row and copy buttons remain invis.
-4. 
+4. date is currently outputting month/day/year
 5. 
 6. last link validity check (date) in forms tab
 7. adjust pin buttons on small width to fit in
